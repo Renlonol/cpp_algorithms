@@ -14,8 +14,8 @@ template <typename T> class Sort {
 public:
     typedef typename std::vector<T>::size_type size_type;
     Sort() = default;
-    Sort(std::istream& In, bool aux_enable, std::function<bool(const T&, const T&)> cf);
-    Sort(int N, bool aux_enable, std::function<bool(const T&, const T&)> cf);
+    Sort(std::istream& In, bool aux_enable, bool log_enable, std::function<bool(const T&, const T&)> cf);
+    Sort(int N, bool aux_enable, bool log_enable, std::function<bool(const T&, const T&)> cf);
     void selection_sort();
     void insertion_sort();
     void shell_sort();
@@ -25,6 +25,7 @@ public:
 private:
     std::shared_ptr<std::vector<T>> data;
     std::shared_ptr<std::vector<T>> aux_data;
+    bool log_enable;
     std::function<bool(const T&, const T&)> compFunc;
     void merge(int low, int mid, int high);
     void merge_sort_impl(int low, int high);
@@ -35,20 +36,21 @@ private:
 class SortCompare {
 public:
     SortCompare() = default;
-    SortCompare(std::string &name, int n, int r):
-        sortName(name), dataNumber(n), repeat(r) {}
+    SortCompare(std::string &name, int n, int r, bool l):
+        sortName(name), dataNumber(n), repeat(r), log_enable(l) {}
     long sortTime(Sort<double> &);
     double timeRandomInput();
 private:
     std::string sortName;
     int dataNumber;
     int repeat;
+    bool log_enable;
 };
 
 
 template <typename T>
-Sort<T>::Sort(std::istream &In, bool aux_enable, std::function<bool(const T&, const T&)> cf):
-    data(std::make_shared<std::vector<T>>()), compFunc(cf)
+Sort<T>::Sort(std::istream &In, bool aux_enable, bool log_enable, std::function<bool(const T&, const T&)> cf):
+    data(std::make_shared<std::vector<T>>()), log_enable(log_enable), compFunc(cf)
 {
     T word;
     while (In >> word)
@@ -58,8 +60,8 @@ Sort<T>::Sort(std::istream &In, bool aux_enable, std::function<bool(const T&, co
 }
 
 template <typename T>
-Sort<T>::Sort(int N, bool aux_enable, std::function<bool(const T&, const T&)> cf):
-    data(std::make_shared<std::vector<T>>()), compFunc(cf)
+Sort<T>::Sort(int N, bool aux_enable, bool log_enable, std::function<bool(const T&, const T&)> cf):
+    data(std::make_shared<std::vector<T>>()), log_enable(log_enable), compFunc(cf)
 {
     std::default_random_engine random(time(NULL));
     std::uniform_real_distribution<T> dis(0.0, N);
@@ -90,9 +92,14 @@ void Sort<T>::selection_sort()
             if (compFunc((*data)[j+1], (*data)[minIndex]))
                 minIndex = j + 1;
         }
+
         std::swap((*data)[i], (*data)[minIndex]);
+
+        if (log_enable)
+        {
+            show_data(std::cout);
+        }
     }
-    //show_data(std::cout);
 }
 
 template <typename T>
@@ -102,8 +109,12 @@ void Sort<T>::insertion_sort()
     {
         for (size_type j = i; j > 0 && compFunc((*data)[j], (*data)[j-1]); --j)
             std::swap((*data)[j], (*data)[j-1]);
+
+        if (log_enable)
+        {
+            show_data(std::cout);
+        }
     }
-    //show_data(std::cout);
 }
 
 template <typename T>
@@ -117,10 +128,14 @@ void Sort<T>::shell_sort()
         for (size_type i = h; i < N; i++) {
             for (size_type j = i; j >= h && compFunc((*data)[j], (*data)[j-h]); j -= h)
                 std::swap((*data)[j], (*data)[j-h]);
+
+            if (log_enable)
+            {
+                show_data(std::cout);
+            }
         }
         h = h / 3;
     }
-    //show_data(std::cout);
 }
 
 template <typename T>
@@ -153,13 +168,16 @@ void Sort<T>::merge_sort_impl(int low, int high)
     merge_sort_impl(low, mid);
     merge_sort_impl(mid+1, high);
     merge(low, mid, high);
+    if (log_enable)
+    {
+        show_data(std::cout);
+    }
 }
 
 template <typename T>
 void Sort<T>::merge_sort()
 {
     merge_sort_impl(0, data->size() - 1);
-    //show_data(std::cout);
 }
 
 template <typename T>
@@ -178,6 +196,10 @@ int Sort<T>::partition(int low, int high)
         std::swap((*data)[i], (*data)[j]);
     }
     std::swap((*data)[low], (*data)[j]);
+    if (log_enable)
+    {
+        show_data(std::cout);
+    }
     return j;
 }
 
@@ -195,7 +217,6 @@ template <typename T>
 void Sort<T>::quick_sort()
 {
     quick_sort_impl(0, data->size() - 1);
-    //show_data(std::cout);
 }
 
 #endif

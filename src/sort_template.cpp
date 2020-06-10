@@ -32,10 +32,27 @@ double SortCompare::timeRandomInput()
     for (int i = 0; i < repeat; ++i)
     {
         if (sortName.compare("Merge") == 0)
-            s = Sort<double>(dataNumber, true, std::less<double>());
+        {
+            if (!log_enable)
+                s = Sort<double>(dataNumber, true, false, std::less<double>());
+            else
+            {
+                std::cout << "start " << sortName << ", repeat " << i << ":" << std::endl;
+                s = Sort<double>(dataNumber, true, true, std::less<double>());
+            }
+            
+        }
         else
-            s = Sort<double>(dataNumber, false, std::less<double>());
-        //s.show_data(std::cout);
+        {
+            if (!log_enable)
+                s = Sort<double>(dataNumber, false, false, std::less<double>());
+            else
+            {
+                std::cout << "start " << sortName << ", repeat " << i << ":" << std::endl;
+                s = Sort<double>(dataNumber, false, true, std::less<double>());
+            }
+            
+        }
         total += sortTime(s);
     }
     return total;
