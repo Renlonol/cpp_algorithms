@@ -20,19 +20,7 @@ int main(int argc, char *argv[])
         std::cout << "Not connected." << std::endl;
 
     for (int v = 0; v < g.get_vertex_num(); v++)
-    {
-        std::cout << df.get_start() << " to " << v << ": ";
-        if (df.is_hasPath(v))
-        {
-            auto path = df.get_path(v);
-            for (auto v : path)
-                if (v == df.get_start())
-                    std::cout << v;
-                else
-                    std::cout << "-" << v;
-        }
-        std::cout << std::endl;
-    }
+        df.print_path(v);
 
     return 0;
 }

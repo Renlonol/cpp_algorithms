@@ -43,6 +43,7 @@ public:
     void path(Graph& g);
     bool is_hasPath(int v) { return marked[v]; }
     std::vector<int> get_path(int v);
+    void print_path(int v);
 
 private:
     std::vector<bool> marked;

@@ -66,3 +66,18 @@ std::vector<int> DepthFirstSearch::get_path(int v)
     st.insert(st.begin(), s);
     return st;
 }
+
+void DepthFirstSearch::print_path(int v)
+{
+    std::cout << s << " to " << v << ": ";
+    if (is_hasPath(v))
+    {
+        auto path = get_path(v);
+        for (auto v : path)
+            if (v == s)
+                std::cout << v;
+            else
+                std::cout << "-" << v;
+    }
+    std::cout << std::endl;
+}
