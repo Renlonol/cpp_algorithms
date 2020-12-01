@@ -3,6 +3,7 @@
 #include <fstream>
 #include <string>
 #include <cstdlib>
+#include <stack>
 
 class Graph
 {
@@ -25,10 +26,12 @@ private:
 class DepthFirstSearch
 {
 public:
-    DepthFirstSearch(int n): count(0)
+    DepthFirstSearch(Graph& g, int v): s(v), count(0)
     {
-        for (int i = 0; i < n; i++)
+        for (int i = 0; i < g.get_vertex_num(); i++) {
             marked.push_back(false);
+            edgeTo.push_back(i);
+        }
     }
 
     ~DepthFirstSearch() {};
@@ -36,8 +39,14 @@ public:
     void dfs(Graph& g, int v);
     bool is_marked(int w) const { return marked[w]; }
     int get_count() const { return count; }
+    int get_start() const { return s; }
+    void path(Graph& g);
+    bool is_hasPath(int v) { return marked[v]; }
+    std::vector<int> get_path(int v);
 
 private:
     std::vector<bool> marked;
+    std::vector<int> edgeTo; // store the last vertex of from start vertex(s) to certain vertex
+    int s;
     int count;
 };

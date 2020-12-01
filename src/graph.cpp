@@ -44,6 +44,25 @@ void DepthFirstSearch::dfs(Graph& g, int v)
     marked[v] = true;
     count++;
     for (int w : g.get_adj(v))
-        if (!marked[w])
+        if (!marked[w]) {
+            edgeTo[w] = v;
             dfs(g, w);
+        }
+}
+
+void DepthFirstSearch::path(Graph& g)
+{
+    dfs(g, s);
+}
+
+std::vector<int> DepthFirstSearch::get_path(int v)
+{
+    if (!is_hasPath(v))
+        return std::vector<int>{};
+
+    std::vector<int> st;
+    for (int x = v; x != s; x = edgeTo[x])
+        st.insert(st.begin(), x);
+    st.insert(st.begin(), s);
+    return st;
 }
