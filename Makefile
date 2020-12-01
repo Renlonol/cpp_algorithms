@@ -1,7 +1,7 @@
 start: help
 
-all: sort_test collections_test union_find_test
-clean-all: sort_test_clean collections_test_clean union_find_test_clean
+all: sort_test collections_test union_find_test graph_test
+clean-all: sort_test_clean collections_test_clean union_find_test_clean graph_test_clean
 
 .PHONY: sort_test
 sort_test:
@@ -30,6 +30,15 @@ union_find_test:
 union_find_test_clean:
 	@make -C ./example/union_find_test clean
 
+.PHONY: graph_test
+graph_test:
+	@make -C ./example/graph_test -j
+	@echo "== Build $@ done"
+
+.PHONY: graph_test_clean
+graph_test_clean:
+	@make -C ./example/graph_test clean
+
 .PHONY: help
  help:
 	@echo "================================= cpp algorithms lean makefile ========================================================"
@@ -40,4 +49,5 @@ union_find_test_clean:
 	@echo "  sort_test         |   sort_test_clean                Build and clean stuffs for sort"
 	@echo "  collections_test  |   collections_test_clean         Build and clean stuffs for collections"
 	@echo "  union_find_test   |   union_find_test_clean          Build and clean stuffs for union_find"
+	@echo "  graph_test        |   graph_test_clean               Build and clean stuffs for graph"
 	@echo "========================================================================================================================"
