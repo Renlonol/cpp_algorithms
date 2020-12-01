@@ -7,7 +7,7 @@ int main(int argc, char *argv[])
     //g.print();
 
     int v = atoi(argv[2]);
-    DepthFirstSearch df(g, v);
+    DepthFirstSearch df(g, v); // from v to start depth search
     //df.dfs(g, v);
     df.path(g);
 
