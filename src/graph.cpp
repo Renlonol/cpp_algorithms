@@ -81,3 +81,65 @@ void DepthFirstSearch::print_path(int v)
     }
     std::cout << std::endl;
 }
+
+//BreadthFirstSearch
+BreadthFirstSearch::BreadthFirstSearch(Graph& g, int v): s(v)
+{
+    for (int i = 0; i < g.get_vertex_num(); i++)
+    {
+        marked.push_back(false);
+        edgeTo.push_back(i);
+    }
+}
+
+void BreadthFirstSearch::bfs(Graph& g, int v)
+{
+    std::queue<int> q;
+    marked[v] = true;
+    q.push(v);
+    while (!q.empty()) {
+        int k = q.front();
+        q.pop();
+        for (int w : g.get_adj(k))
+        {
+            if (!marked[w])
+            {
+                marked[w] = true;
+                edgeTo[w] = k;
+                q.push(w);
+            }
+        }
+    }
+}
+
+void BreadthFirstSearch::path(Graph& g)
+{
+    bfs(g, s);
+}
+
+std::vector<int> BreadthFirstSearch::get_path(int v)
+{
+    if (!is_hasPath(v))
+        return std::vector<int>{};
+
+    std::vector<int> st;
+    for (int x = v; x != s; x = edgeTo[x])
+        st.insert(st.begin(), x);
+    st.insert(st.begin(), s);
+    return st;
+}
+
+void BreadthFirstSearch::print_path(int v)
+{
+    std::cout << s << " to " << v << ": ";
+    if (is_hasPath(v))
+    {
+        auto path = get_path(v);
+        for (auto v : path)
+            if (v == s)
+                std::cout << v;
+            else
+                std::cout << "-" << v;
+    }
+    std::cout << std::endl;
+}

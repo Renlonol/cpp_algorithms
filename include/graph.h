@@ -4,6 +4,7 @@
 #include <string>
 #include <cstdlib>
 #include <stack>
+#include <queue>
 
 class Graph
 {
@@ -50,4 +51,22 @@ private:
     std::vector<int> edgeTo; // store the last vertex of from start vertex(s) to certain vertex
     int s;
     int count;
+};
+
+class BreadthFirstSearch
+{
+public:
+    BreadthFirstSearch(Graph& g, int v);
+    ~BreadthFirstSearch() {}
+
+    void bfs(Graph& g, int v);
+    bool is_hasPath(int v) { return marked[v]; }
+    void path(Graph& g);
+    std::vector<int> get_path(int v);
+    void print_path(int v);
+
+private:
+    std::vector<bool> marked;
+    std::vector<int> edgeTo;
+    int s;
 };

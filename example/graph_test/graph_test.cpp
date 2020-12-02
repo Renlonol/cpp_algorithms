@@ -6,6 +6,7 @@ int main(int argc, char *argv[])
     Graph g(in);
     //g.print();
 
+    std::cout << "df test:" << std::endl;
     int v = atoi(argv[2]);
     DepthFirstSearch df(g, v); // from v to start depth search
     //df.dfs(g, v);
@@ -22,5 +23,11 @@ int main(int argc, char *argv[])
     for (int v = 0; v < g.get_vertex_num(); v++)
         df.print_path(v);
 
+    std::cout << "bf test:" << std::endl;
+    BreadthFirstSearch bf(g, v);
+    bf.path(g);
+
+    for (int v = 0; v < g.get_vertex_num(); v++)
+        bf.print_path(v);
     return 0;
 }
