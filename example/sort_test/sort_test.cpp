@@ -4,8 +4,8 @@
 
 static void usage()
 {
-    std::cout << "./sort_test [sort type] [sort type] [data range] [repeats] [log_enable]" << std::endl;
-    std::cout << "sort type: Insertion, Selection, Shell, Merge, Quick" << std::endl;
+    std::cout << "./sort_test [sort type] [sort type] [data num] [repeats] [log_enable]" << std::endl;
+    std::cout << "sort type: Insertion, Selection, Shell, Heap, Merge, Quick" << std::endl;
     std::cout << "eg, ./sort_test Merge Quick 10000000 1 1" << std::endl;
 }
 
