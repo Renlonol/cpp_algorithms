@@ -11,6 +11,8 @@ long SortCompare::sortTime(Sort<double> &s)
         s.selection_sort();
     else if (sortName.compare("Shell") == 0)
         s.shell_sort();
+    else if (sortName.compare("Heap") == 0)
+        s.heap_sort();
     else if (sortName.compare("Merge") == 0)
         s.merge_sort();
     else if (sortName.compare("Quick") == 0)
@@ -34,24 +36,32 @@ double SortCompare::timeRandomInput()
         if (sortName.compare("Merge") == 0)
         {
             if (!log_enable)
-                s = Sort<double>(dataNumber, true, false, std::less<double>());
+                s = Sort<double>(dataNumber, true, false, false, std::less<double>());
             else
             {
                 std::cout << "start " << sortName << ", repeat " << i << ":" << std::endl;
-                s = Sort<double>(dataNumber, true, true, std::less<double>());
+                s = Sort<double>(dataNumber, true, true, false, std::less<double>());
             }
-            
+        }
+        else if (sortName.compare("Heap") == 0)
+        {
+            if (!log_enable)
+                s = Sort<double>(dataNumber, false, false, true, std::less<double>());
+            else
+            {
+                std::cout << "start " << sortName << ", repeat " << i << ":" << std::endl;
+                s = Sort<double>(dataNumber, false, true, true, std::less<double>());
+            }
         }
         else
         {
             if (!log_enable)
-                s = Sort<double>(dataNumber, false, false, std::less<double>());
+                s = Sort<double>(dataNumber, false, false, false, std::less<double>());
             else
             {
                 std::cout << "start " << sortName << ", repeat " << i << ":" << std::endl;
-                s = Sort<double>(dataNumber, false, true, std::less<double>());
+                s = Sort<double>(dataNumber, false, true, false, std::less<double>());
             }
-            
         }
         total += sortTime(s);
     }
